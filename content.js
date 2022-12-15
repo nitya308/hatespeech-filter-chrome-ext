@@ -1,5 +1,5 @@
 chrome.storage.sync.get("words").then((result) => {
-  console.log("Value currently is " + result.key);
+  console.log("Value currently is " + result.words);
   var allElements = document.getElementsByTagName('*');
 
   for (var x = 0; x < allElements.length; x++) {

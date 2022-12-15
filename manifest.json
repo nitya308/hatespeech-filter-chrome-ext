@@ -10,7 +10,7 @@
     "128": "images/icon-128.png"
   },
   "background": {
-    "page": "background.html"
+    "service_worker": "background.js"
   },
   "permissions": [
     "identity",
@@ -33,10 +33,9 @@
     }
   ],
   "oauth2": {
-    "client_id": "123538290178-4ih1tf2qfa0gcm6gf8fohqiik7s59024.apps.googleusercontent.com",
+    "client_id": "908196517973-uh3j9o4mrbl187al3pnd8141he4vt689.apps.googleusercontent.com",
     "scopes": [
       "https://www.googleapis.com/auth/userinfo.email"
     ]
-  },
-  "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com;"
+  }
 }
