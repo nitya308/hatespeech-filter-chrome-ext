@@ -20,10 +20,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
         chrome.identity.launchWebAuthFlow({ url: auth_url, interactive: true }, function (redirectUrl) {
           if (redirectUrl != null) {
+            console.log(redirectUrl);
             // The ID token is in the URL hash
             const urlHash = redirectUrl.split('#')[1];
             const params = new URLSearchParams(urlHash);
             const jwt = params.get('id_token');
+            console.log(jwt);
 
             // Parse the JSON Web Token
             const base64Url = jwt.split('.')[1];
