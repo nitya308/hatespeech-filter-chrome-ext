@@ -1,27 +1,32 @@
-chrome.runtime.sendMessage({ message: 'get words' });
+chrome.runtime.sendMessage({ message: 'get words' }).then(() => {
+  
+  console.log("message executed");
 
-chrome.storage.sync.get("words").then((result) => {
-  words = result.words;
-  console.log("Value currently is " + words);
+  chrome.storage.sync.get("words").then((result) => {
+    words = result.words;
 
-  var allElements = document.getElementsByTagName('*');
+    console.log("words:", words);
+    var regex = new RegExp('\\b(' + words.join('|') + ')\\b', 'gi');
 
-  for (var x = 0; x < allElements.length; x++) {
-    var element = allElements[x];
+    var allElements = document.getElementsByTagName('*');
 
-    for (var y = 0; y < element.childNodes.length; y++) {
-      var node = element.childNodes[y];
+    for (var x = 0; x < allElements.length; x++) {
+      var element = allElements[x];
 
-      if (node.nodeType === 3) {
-        var text = node.nodeValue;
+      for (var y = 0; y < element.childNodes.length; y++) {
+        var node = element.childNodes[y];
 
-        var replacedText = text.replace(/text/gi, '------');
+        if (node.nodeType === 3) {
+          var text = node.nodeValue;
 
-        if (replacedText !== text) {
-          element.replaceChild(document.createTextNode(replacedText), node);
+          var replacedText = text.replace(regex, '------');
+
+          if (replacedText !== text) {
+            element.replaceChild(document.createTextNode(replacedText), node);
+          }
         }
       }
     }
-  }
+  });
 });
 
