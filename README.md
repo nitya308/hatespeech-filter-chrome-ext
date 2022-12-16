@@ -14,7 +14,7 @@ This is the chrome extension that blurs out any trigger words by fetching the cu
 This extension uses Google Oauth2.0 authentication by calling chrome.identity services and using an interactive popup to prompt users to sign in. 
 It connects to WebSafe's backend API to retrieve and add data to the Google Cloud Firestore database.
 
-##Scripts
+## Scripts
 The service worker script is called `background.js`. 
 It has two main functions: one to authenticate the user and one to `fetch` words using a query to the WebSafe backend API.<br/>
 It uses **sync storage** provided by chrome to update the values once fetched so repeated calls are not made to the API. Once filled, values are cached unless the user updates thier word list using the Web App. <br/>
@@ -28,7 +28,7 @@ The service implements the `chrome.runtime.onMessage.addListener` with function 
       chrome.storage.sync.set({ words: data })
     })
 ```
-<br/><br/>
+<br/>
 
 The content script is called `content.js`. This runs whenever a new page is loaded. It sends a message to the background script to fetch the word list for the signed in user. 
 Once the operation is complete, the trigger words list is accessed from `chrome.storage.sync`.
