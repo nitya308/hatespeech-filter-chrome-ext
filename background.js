@@ -1,24 +1,19 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === 'get words') {
-
     // get userID from chrome.storage.sync
     chrome.storage.sync.get("userID").then((result) => {
-
       const userID = result.userID;
-      auth();
-
-      // if (userID === undefined) {
-      //   // console.log("userID is undefined");
-      //   auth();
-      //   // now get words list from apiURL
-      //   getWords(email);
-      // }
-
-      // else {
-      //   // console.log("userID is defined, in else");
-      //   // get words list from apiURL
-      //   getWords(userID);
-      // }
+      if (userID === undefined) {
+        chrome.identity.getProfileUserInfo(function (info) {
+          const email = info.email;
+          // console.log(email);
+          getWords(email);
+        });
+      }
+      else {
+        // get words list from apiURL
+        getWords(userID);
+      }
     });
   }
 });
@@ -56,16 +51,15 @@ function auth() {
       // console.log(JSON.parse(jsonPayload));
 
       // Parse the JSON Web Token
-      const base64Url = jwt.split('.')[1];
+      // const base64Url = jwt.split('.')[1];
       // const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       // console.log('base64', base64);
-      var payload = JSON.parse(base64urlDecode(base64Url));
-      console.log('token', payload);
+      // var payload = JSON.parse(base64urlDecode(base64Url));
+      // console.log('token', payload);
 
-      // // store token.userID in chrome.storage.sync
+      // store token.userID in chrome.storage.sync
       // chrome.storage.sync.set({ userID: userID })
-
-      return userID
+      // return userID
     }
   });
 }
