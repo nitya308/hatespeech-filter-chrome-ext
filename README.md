@@ -17,14 +17,21 @@ It connects to WebSafe's backend API to retrieve and add data to the Google Clou
 ##Scripts
 The service worker script is called `background.js`. 
 It has two main functions: one to authenticate the user and one to `fetch` words using a query to the WebSafe backend API.<br/>
-It uses `sync storage` provided by chrome to update the values once fetched so repeated calls are not made to the API. Once filled, values are cached unless the user updates thier word list using the Web App. <br/>
+It uses **sync storage** provided by chrome to update the values once fetched so repeated calls are not made to the API. Once filled, values are cached unless the user updates thier word list using the Web App. <br/>
 The service implements the `chrome.runtime.onMessage.addListener` with function to listen for appropriate messages from the content script and launch functions as neccesary.
+```
+  fetch(apiURL + new URLSearchParams({ userID: userID }))
+    .then((response) => {
+      return (response.json());
+    })
+    .then((data) => {
+      chrome.storage.sync.set({ words: data })
+    })
+```
 <br/><br/>
 
 The content script is called `content.js`. This runs whenever a new page is loaded. It sends a message to the background script to fetch the word list for the signed in user. 
 Once the operation is complete, the trigger words list is accessed from `chrome.storage.sync`.
 ```
-chrome.storage.sync.get("words").then((result) => {
-  }
-});
+chrome.storage.sync.get("words").then((result) => {}});
 ```
